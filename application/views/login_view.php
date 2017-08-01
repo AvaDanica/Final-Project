@@ -38,11 +38,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
       <div class="col-md-12">
         <div class="login-mail">
-          <input type="text" name="lusername" placeholder="Username" required="">
+          <input type="text" name="username" placeholder="Username" required="">
           <i class="fa fa-user"></i>
         </div>
         <div class="login-mail">
-          <input type="password" name="lpassword" placeholder="Password" required="">
+          <input type="password" name="password" placeholder="Password" required="">
           <i class="fa fa-lock"></i>
         </div>
 
