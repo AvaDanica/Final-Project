@@ -212,21 +212,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			    </thead>
 			    <tbody>
 			    	<?php
-			    		$age1 = 6;
-						$age2 = 32;
-
-						if($this->input->post("age1") != 6) {
-							$age1 = $this->input->post("age1");
-						}
-						if($this->input->post("age2") != 32) {
-							$age2 = $this->input->post("age2");	
-						}
-
-						if($this->input->post("age1") > $this->input->post("age2")) {
-							$age1 = $this->input->post("age2");
-							$age2 = $this->input->post("age1");
-						}
-
 						$universities = array();
 
 						if($this->input->post("admu") == true) {
@@ -251,11 +236,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							array_push($universities, "University of the Philippines");
 						}
 
+						$this->session->set_userdata('age1', 6);
+						$this->session->set_userdata('age2', 32);
+						
+						if($this->input->post("age1")) {
+							if($this->input->post("age1") != 6) {
+								$this->session->set_userdata('age1', $this->input->post("age1"));
+							}
+							if($this->input->post("age2") != 32) {
+								$this->session->set_userdata('age2', $this->input->post("age2"));
+							}
+
+							if($this->input->post("age1") > $this->input->post("age2")) {
+								$this->session->set_userdata('age1', $this->input->post("age2"));
+								$this->session->set_userdata('age2', $this->input->post("age1"));
+							}
+						}
+
 						if(sizeof($universities) == 0 || sizeof($universities) == 7) {
-							$data = $this->User_model->getAllData();
-							/*if($age1 != 6 && $age2 != 32) {
-								$data = $this->User_model->getAgeData($age1, $age2 + 1);
-							}*/
+							$data = $this->User_model->getAllData();;
+							if($this->session->userdata('age1') != 6 || $this->session->userdata('age2') != 32) {
+								$data = $this->User_model->getAgeData($this->session->userdata('age1'), $this->session->userdata('age2') + 1);
+							}
 							for($count = 0; $count < count($data); $count++) {
 						    	echo "<tr>
 						    		<td><center>".$data[$count]['name']."</center></td>
@@ -268,7 +270,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						}
 						else {
 							for($x = 0; $x < sizeof($universities); $x++) {
-								$data = $this->User_model->getSpecificData($age1, $age2 + 1, $universities[$x]);
+								$data = $this->User_model->getSpecificData($this->session->userdata('age1'), $this->session->userdata('age2') + 1, $universities[$x]);
 								for($count = 0; $count < count($data); $count++) {
 							    	echo "<tr>
 							    		<td><center>".$data[$count]['name']."</center></td>
